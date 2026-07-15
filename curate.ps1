@@ -1,60 +1,127 @@
-$ExtDir="$env:USERPROFILE\.positron\extensions"
+# =====================================================
+# Positron Research Profile
+# Extension Scanner v1.0
+# Author: OpenAI + Ryochan
+# =====================================================
 
-$Profile="$PSScriptRoot\..\profiles\S-Class.txt"
+$ErrorActionPreference = "SilentlyContinue"
 
-$Output="$PSScriptRoot\..\reports"
+#-------------------------------------------------------
+# Positron 扩展目录
+#-------------------------------------------------------
+$ExtDir = Join-Path $env:USERPROFILE ".positron\extensions"
 
-New-Item $Output -ItemType Directory -Force|Out-Null
+if (!(Test-Path $ExtDir)) {
+    Write-Host ""
+    Write-Host "找不到 Positron Extensions：" -ForegroundColor Red
+    Write-Host $ExtDir
+    exit
+}
 
-$White=Get-Content $Profile
+#-------------------------------------------------------
+# 输出目录
+#-------------------------------------------------------
+$RepoRoot = $PSScriptRoot
+$ReportDir = Join-Path $RepoRoot "reports"
 
-$result=@()
+if (!(Test-Path $ReportDir)) {
+    New-Item -ItemType Directory -Path $ReportDir | Out-Null
+}
 
-foreach($dir in Get-ChildItem $ExtDir -Directory){
+#-------------------------------------------------------
+# 开始扫描
+#-------------------------------------------------------
+$dirs = Get-ChildItem $ExtDir -Directory
 
-    $name=$dir.Name
+$total = $dirs.Count
+$index = 0
 
-    $base=$name
+$result = @()
 
-    if($name -match '^(.*?)-((\d+\.)+\d+.*)$'){
-        $base=$matches[1]
+Write-Host ""
+Write-Host "========================================"
+Write-Host "Positron Extension Scanner v1.0"
+Write-Host "========================================"
+Write-Host ""
+
+foreach ($dir in $dirs) {
+
+    $index++
+
+    Write-Progress `
+        -Activity "Scanning Extensions..." `
+        -Status "$index / $total" `
+        -PercentComplete (($index / $total) * 100)
+
+    $size = (
+        Get-ChildItem $dir.FullName -Recurse -File |
+        Measure-Object Length -Sum
+    ).Sum
+
+    $folder = $dir.Name
+
+    $base = $folder
+    $version = ""
+
+    if ($folder -match '^(.*?)-((\d+\.)+\d+.*)$') {
+        $base = $matches[1]
+        $version = $matches[2]
     }
 
-    $size=(Get-ChildItem $dir.FullName -Recurse -File -ErrorAction SilentlyContinue|
-        Measure Length -Sum).Sum
+    $result += [PSCustomObject]@{
 
-    if($White -contains $base){
+        Extension = $base
 
-        $level="S"
+        Version = $version
 
-    }
+        Folder = $folder
 
-    else{
+        SizeMB = [math]::Round($size / 1MB,2)
 
-        $level="?"
-
-    }
-
-    $result+=[PSCustomObject]@{
-
-        Extension=$base
-
-        Folder=$dir.Name
-
-        SizeMB=[math]::Round($size/1MB,2)
-
-        Level=$level
+        SizeGB = [math]::Round($size / 1GB,3)
 
     }
 
 }
 
-$result|
-Sort Level,SizeMB -Descending|
-Export-Csv "$Output\Research_Profile.csv" -NoTypeInformation -Encoding UTF8
+Write-Progress -Completed -Activity "Scanning"
+
+#-------------------------------------------------------
+# 排序
+#-------------------------------------------------------
+$result = $result | Sort-Object SizeMB -Descending
+
+#-------------------------------------------------------
+# 导出 CSV
+#-------------------------------------------------------
+$CsvFile = Join-Path $ReportDir "Research_Profile.csv"
+
+$result |
+Export-Csv $CsvFile `
+-NoTypeInformation `
+-Encoding UTF8
+
+#-------------------------------------------------------
+# 显示 TOP30
+#-------------------------------------------------------
+Write-Host ""
+Write-Host "============= TOP30 Largest Extensions =============" -ForegroundColor Yellow
+
+$result |
+Select-Object -First 30 |
+Format-Table Extension,Version,SizeGB -AutoSize
+
+#-------------------------------------------------------
+# 汇总
+#-------------------------------------------------------
+$totalSize = ($result | Measure-Object SizeGB -Sum).Sum
 
 Write-Host ""
-
-Write-Host "完成！"
-
-Write-Host "$Output\Research_Profile.csv"
+Write-Host "========================================"
+Write-Host "扫描完成！" -ForegroundColor Green
+Write-Host "扩展数量：" $result.Count
+Write-Host ("总容量：{0:N2} GB" -f $totalSize)
+Write-Host ""
+Write-Host "CSV 报告："
+Write-Host $CsvFile -ForegroundColor Cyan
+Write-Host "========================================"

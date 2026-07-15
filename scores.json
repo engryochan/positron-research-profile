@@ -1,0 +1,22 @@
+{
+  "continue.continue": {
+    "score": 100,
+    "grade": "S+",
+    "reason": "顶级 AI 编程代理"
+  },
+  "ms-python.python": {
+    "score": 100,
+    "grade": "S+",
+    "reason": "Python 官方扩展"
+  },
+  "ms-toolsai.jupyter": {
+    "score": 99,
+    "grade": "S+",
+    "reason": "Jupyter 官方支持"
+  },
+  "quarto.quarto": {
+    "score": 98,
+    "grade": "S",
+    "reason": "科研文档发布"
+  }
+}

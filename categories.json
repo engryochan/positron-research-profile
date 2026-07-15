@@ -1,0 +1,34 @@
+{
+    "AI":[
+        "continue.continue",
+        "github.copilot",
+        "openai.chatgpt",
+        "anthropic.claude-code",
+        "google.geminicodeassist"
+    ],
+
+    "Python":[
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+    ],
+
+    "R":[
+        "reditorsupport.r",
+        "quarto.quarto"
+    ],
+
+    "Database":[
+        "duckdb.duckdb",
+        "ms-mssql.mssql"
+    ],
+
+    "Docker":[
+        "ms-azuretools.vscode-docker"
+    ],
+
+    "Visualization":[
+        "hediet.vscode-drawio",
+        "mechatroner.rainbow-csv"
+    ]
+}

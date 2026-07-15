@@ -1,0 +1,19 @@
+{
+    "continue.continue":"S",
+    "github.copilot":"S",
+    "openai.chatgpt":"A",
+    "anthropic.claude-code":"A",
+
+    "ms-python.python":"S",
+    "ms-python.vscode-pylance":"S",
+
+    "ms-toolsai.jupyter":"S",
+
+    "reditorsupport.r":"S",
+
+    "quarto.quarto":"S",
+
+    "eamodio.gitlens":"S",
+
+    "ms-vscode.remote-containers":"S"
+}

@@ -1,0 +1,18 @@
+$ExtDir = "$env:USERPROFILE\.positron\extensions"
+
+$BackupRoot = "$env:USERPROFILE\Positron_Backup"
+
+$Time = Get-Date -Format "yyyyMMdd_HHmmss"
+
+$Backup = Join-Path $BackupRoot $Time
+
+New-Item -ItemType Directory -Force $Backup | Out-Null
+
+Write-Host ""
+Write-Host "开始备份..." -ForegroundColor Cyan
+
+Copy-Item $ExtDir $Backup -Recurse
+
+Write-Host ""
+Write-Host "备份完成："
+Write-Host $Backup -ForegroundColor Green

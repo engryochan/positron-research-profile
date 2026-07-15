@@ -1,0 +1,33 @@
+# ===== Language =====
+ms-python.python
+ms-python.vscode-pylance
+charliermarsh.ruff
+ms-toolsai.jupyter
+quarto.quarto
+reditorsupport.r
+yzhang.markdown-all-in-one
+james-yu.latex-workshop
+
+# ===== Git =====
+eamodio.gitlens
+github.vscode-pull-request-github
+
+# ===== AI =====
+openai.chatgpt
+continue.continue
+saoudrizwan.claude-dev
+rooveterinaryinc.roocode
+
+# ===== Visualization =====
+ms-vscode.vscode-json
+tomoyukim.vscode-mermaid-editor
+plotly.plotly-vscode
+
+# ===== Docker =====
+ms-azuretools.vscode-docker
+ms-vscode-remote.remote-containers
+
+# ===== Web =====
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+bradlc.vscode-tailwindcss

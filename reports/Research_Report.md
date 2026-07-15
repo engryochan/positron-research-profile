@@ -1,6 +1,6 @@
 # Positron Research Report
 
-扩展数量：**2472**
+扩展数量：**2500**
 
 |Extension|Version|SizeGB|
 |---|---|---:|

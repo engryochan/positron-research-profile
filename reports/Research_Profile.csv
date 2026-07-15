@@ -284,7 +284,6 @@ evolvecode-ai.evolve-ai,2.1.1-win32-x64,evolvecode-ai.evolve-ai-2.1.1-win32-x64,
 devsense.phptools-vscode,1.71.19014-win32-x64,devsense.phptools-vscode-1.71.19014-win32-x64,59.65,0.058
 unlocalhosted.side-bae,1.4.0-universal,unlocalhosted.side-bae-1.4.0-universal,59.2,0.058
 shopify.theme-check-vscode,3.11.6-universal,shopify.theme-check-vscode-3.11.6-universal,58.88,0.057
-sergeyegorov.folder-color,3.0.0-universal,sergeyegorov.folder-color-3.0.0-universal,58.38,0.057
 mutyai.mutyagent,1.0.36-universal,mutyai.mutyagent-1.0.36-universal,57.95,0.057
 huggingface.huggingface-vscode,0.2.2-win32-x64,huggingface.huggingface-vscode-0.2.2-win32-x64,57.92,0.057
 devcoreai-coding-agent.devcoreai-coding-agent,1.0.18-universal,devcoreai-coding-agent.devcoreai-coding-agent-1.0.18-universal,57.44,0.056
@@ -386,8 +385,6 @@ ownable.ownable,0.22.0-universal,ownable.ownable-0.22.0-universal,41.3,0.04
 ggfincke.vsc-mdx-preview,1.6.1-universal,ggfincke.vsc-mdx-preview-1.6.1-universal,41.26,0.04
 zny.nan-code,1.0.9-universal,zny.nan-code-1.0.9-universal,41.1,0.04
 fanjiyu0825.skill-monitor,0.1.6-universal,fanjiyu0825.skill-monitor-0.1.6-universal,40.91,0.04
-nextgencode.jarvis-3d-theme,1.1.0-universal,nextgencode.jarvis-3d-theme-1.1.0-universal,40.81,0.04
-superant.mc-dp-icons,4.0.2-universal,superant.mc-dp-icons-4.0.2-universal,40.68,0.04
 codeantai.codeantai,0.0.196-universal,codeantai.codeantai-0.0.196-universal,40.62,0.04
 ibm.db2forzosdeveloperextension,2.2.6-universal,ibm.db2forzosdeveloperextension-2.2.6-universal,40.56,0.04
 nisargshah.python-debug-visualizer,2.1.0-universal,nisargshah.python-debug-visualizer-2.1.0-universal,39.86,0.039
@@ -1279,7 +1276,6 @@ maxwell.vscode-latte,1.0.31-universal,maxwell.vscode-latte-1.0.31-universal,2.64
 cryptarchs.velora,1.1.0-universal,cryptarchs.velora-1.1.0-universal,2.63,0.003
 ran-codes.code-organizer,0.1.1-universal,ran-codes.code-organizer-0.1.1-universal,2.63,0.003
 sukhtumur.paami,3.2.0-universal,sukhtumur.paami-3.2.0-universal,2.63,0.003
-eliostruyf.spfx-snippets,1.13.0-universal,eliostruyf.spfx-snippets-1.13.0-universal,2.62,0.003
 webersonrodrigues.kiro-ecosystem-graph,0.3.4-universal,webersonrodrigues.kiro-ecosystem-graph-0.3.4-universal,2.61,0.003
 jetmartin.apicurio,0.1.0-universal,jetmartin.apicurio-0.1.0-universal,2.6,0.003
 marcmassacapo.harness-dashboard-vscode,0.7.0-universal,marcmassacapo.harness-dashboard-vscode-0.7.0-universal,2.6,0.003
@@ -1289,7 +1285,6 @@ oaslananka.fovuxstudiokit,1.3.0-universal,oaslananka.fovuxstudiokit-1.3.0-univer
 devark.devark-extension,0.1.18-universal,devark.devark-extension-0.1.18-universal,2.57,0.003
 expo.vscode-expo-tools,1.6.3-universal,expo.vscode-expo-tools-1.6.3-universal,2.57,0.003
 karthikaradhya.consolewatch,0.1.0-universal,karthikaradhya.consolewatch-0.1.0-universal,2.57,0.003
-crsx.icons-library,1.0.1-universal,crsx.icons-library-1.0.1-universal,2.56,0.002
 nandamyashwanth.go-debugger-ai,2.0.3-universal,nandamyashwanth.go-debugger-ai-2.0.3-universal,2.56,0.003
 mubashir-ali.bio-data-hub,1.5.0-universal,mubashir-ali.bio-data-hub-1.5.0-universal,2.55,0.002
 elixir-lsp.elixir-ls,0.31.1-universal,elixir-lsp.elixir-ls-0.31.1-universal,2.54,0.002
@@ -1300,7 +1295,6 @@ diemasmichiels.emulate,1.8.2-universal,diemasmichiels.emulate-1.8.2-universal,2.
 drom.vcdrom,0.6.0-universal,drom.vcdrom-0.6.0-universal,2.52,0.002
 mrchetan.goto-laravel-components,1.0.2-universal,mrchetan.goto-laravel-components-1.0.2-universal,2.5,0.002
 openubmc.openubmc-skills-marketplace,1.1.8-universal,openubmc.openubmc-skills-marketplace-1.1.8-universal,2.5,0.002
-tahabasri.snippets,4.2.0-universal,tahabasri.snippets-4.2.0-universal,2.49,0.002
 qcodex.qcodex,0.0.4-universal,qcodex.qcodex-0.0.4-universal,2.48,0.002
 truesparrow.sirji,0.0.31-universal,truesparrow.sirji-0.0.31-universal,2.48,0.002
 web33.repoanalyzer,0.5.4-universal,web33.repoanalyzer-0.5.4-universal,2.48,0.002
@@ -1442,7 +1436,6 @@ softwaredotcom.swdc-vscode,2.8.18-universal,softwaredotcom.swdc-vscode-2.8.18-un
 tracepilot.codeplay,0.1.4-universal,tracepilot.codeplay-0.1.4-universal,1.82,0.002
 jupiter-ai0211.repolens-mcp,0.2.1-universal,jupiter-ai0211.repolens-mcp-0.2.1-universal,1.81,0.002
 marcosklender.console-tree,1.0.2-universal,marcosklender.console-tree-1.0.2-universal,1.81,0.002
-pkief.material-icon-theme,5.36.1-universal,pkief.material-icon-theme-5.36.1-universal,1.81,0.002
 cosmosjeon.nexus-acp,0.1.8-universal,cosmosjeon.nexus-acp-0.1.8-universal,1.8,0.002
 predictabilityatscale.issuetriage,0.1.3-universal,predictabilityatscale.issuetriage-0.1.3-universal,1.8,0.002
 eliostruyf.vscode-dochub,0.0.4-universal,eliostruyf.vscode-dochub-0.0.4-universal,1.79,0.002
@@ -1537,7 +1530,6 @@ syamrajms.ai-error-checklist,0.0.7-universal,syamrajms.ai-error-checklist-0.0.7-
 gitscrum-vscode.gitscrum-vscode,1.0.9-universal,gitscrum-vscode.gitscrum-vscode-1.0.9-universal,1.4,0.001
 kylinideteam.kylin-debug,0.3.0-universal,kylinideteam.kylin-debug-0.3.0-universal,1.4,0.001
 stirner606.auto-accept-ego,1.4.6-universal,stirner606.auto-accept-ego-1.4.6-universal,1.4,0.001
-zhuangtongfa.material-theme,3.19.0-universal,zhuangtongfa.material-theme-3.19.0-universal,1.4,0.001
 eytankrief.data-snapshot,0.0.8-universal,eytankrief.data-snapshot-0.0.8-universal,1.39,0.001
 ghost-dev.ghost-terminal-assistant,0.1.4-universal,ghost-dev.ghost-terminal-assistant-0.1.4-universal,1.39,0.001
 iair0007.cursor-usage-dashboard,0.4.4-universal,iair0007.cursor-usage-dashboard-0.4.4-universal,1.39,0.001
@@ -1721,7 +1713,6 @@ guezey.gemini-api-helper,0.1.2-universal,guezey.gemini-api-helper-0.1.2-universa
 mygnet.anemona-vault,1.0.7-universal,mygnet.anemona-vault-1.0.7-universal,0.81,0.001
 cisco-ai.cisco-ai-security-scanner,1.0.6-universal,cisco-ai.cisco-ai-security-scanner-1.0.6-universal,0.8,0.001
 sandesh13fr.tcalc,0.1.1-universal,sandesh13fr.tcalc-0.1.1-universal,0.8,0.001
-streamline.streamline-icons,1.15.0-universal,streamline.streamline-icons-1.15.0-universal,0.8,0.001
 hexaly.hexaly,14.0.20251202-universal,hexaly.hexaly-14.0.20251202-universal,0.79,0.001
 ibm.vscode-clle,1.2.6-universal,ibm.vscode-clle-1.2.6-universal,0.79,0.001
 justusadam.language-haskell,3.6.0-universal,justusadam.language-haskell-3.6.0-universal,0.79,0.001
@@ -1738,7 +1729,6 @@ trunglq.magic-console-logger,2.1.0-universal,trunglq.magic-console-logger-2.1.0-
 c3.vscode-c3,0.3.6-universal,c3.vscode-c3-0.3.6-universal,0.76,0.001
 kodetech.krom-debug,20.6.0-universal,kodetech.krom-debug-20.6.0-universal,0.76,0.001
 maxorr.python-override-mark,0.5.1-universal,maxorr.python-override-mark-0.5.1-universal,0.76,0.001
-nadim-vscode.infinity-dark-theme,1.0.2-universal,nadim-vscode.infinity-dark-theme-1.0.2-universal,0.76,0.001
 najamcodes.lmagentchat,0.1.0-universal,najamcodes.lmagentchat-0.1.0-universal,0.76,0.001
 svg-icon-manager.svg-icon-manager,1.2.2-universal,svg-icon-manager.svg-icon-manager-1.2.2-universal,0.76,0.001
 vrognas.redmyne,4.41.0-universal,vrognas.redmyne-4.41.0-universal,0.76,0.001
@@ -1757,7 +1747,6 @@ omkarpalika.tooning,18.1.0-universal,omkarpalika.tooning-18.1.0-universal,0.74,0
 theores.commit-message-generator-ai,1.0.4-universal,theores.commit-message-generator-ai-1.0.4-universal,0.74,0.001
 youhogeon.ai-review,0.1.5-universal,youhogeon.ai-review-0.1.5-universal,0.73,0.001
 iliazeus.vscode-ansi,1.1.7-universal,iliazeus.vscode-ansi-1.1.7-universal,0.72,0.001
-naumovs.color-highlight,2.8.0-universal,naumovs.color-highlight-2.8.0-universal,0.72,0.001
 oridwanbello.r-layout,0.4.1-universal,oridwanbello.r-layout-0.4.1-universal,0.72,0.001
 changais.changais,0.1.0-universal,changais.changais-0.1.0-universal,0.71,0.001
 cluesmith.codev-vscode,3.2.2-universal,cluesmith.codev-vscode-3.2.2-universal,0.71,0.001
@@ -2133,7 +2122,6 @@ hassanlasheenn.tweakr-dev,1.0.5-universal,hassanlasheenn.tweakr-dev-1.0.5-univer
 kuqoi.kuqoi,0.0.21-universal,kuqoi.kuqoi-0.0.21-universal,0.21,0.0
 lferrarezi.coorquestrador,1.0.1-universal,lferrarezi.coorquestrador-1.0.1-universal,0.21,0.0
 long-kudo.vscode-claude-status,0.6.2-universal,long-kudo.vscode-claude-status-0.6.2-universal,0.21,0.0
-nadim-vscode.symfony-code-snippets,2.1.1-universal,nadim-vscode.symfony-code-snippets-2.1.1-universal,0.21,0.0
 oryanp.vscode-vrl,0.1.3-universal,oryanp.vscode-vrl-0.1.3-universal,0.21,0.0
 p2l2.hdlregression-by-hgb,1.0.2-universal,p2l2.hdlregression-by-hgb-1.0.2-universal,0.21,0.0
 renan-r-santos.pixi-code,0.2.0-universal,renan-r-santos.pixi-code-0.2.0-universal,0.21,0.0
@@ -2147,7 +2135,6 @@ kv9898.positron-r-package-manager,0.2.5-universal,kv9898.positron-r-package-mana
 linjhs.skills-wizard,1.2.7-universal,linjhs.skills-wizard-1.2.7-universal,0.2,0.0
 luozhihao.call-graph,1.2.3-universal,luozhihao.call-graph-1.2.3-universal,0.2,0.0
 mjkubba.local-llm,0.1.1-universal,mjkubba.local-llm-0.1.1-universal,0.2,0.0
-nadim-vscode.twig-code-snippets,2.0.0-universal,nadim-vscode.twig-code-snippets-2.0.0-universal,0.2,0.0
 rotifer-foundation.rotifer-vscode,0.9.0-universal,rotifer-foundation.rotifer-vscode-0.9.0-universal,0.2,0.0
 specmind.specmind-vscode,0.5.2,specmind.specmind-vscode-0.5.2,0.2,0.0
 byteask.byteask-vscode,0.1.5-universal,byteask.byteask-vscode-0.1.5-universal,0.19,0.0
@@ -2216,7 +2203,6 @@ carrotj.mdcarrot,1.4.6-universal,carrotj.mdcarrot-1.4.6-universal,0.14,0.0
 damolinx.tracciatto,0.3.6-universal,damolinx.tracciatto-0.3.6-universal,0.14,0.0
 igorganapolsky.thumbgate,1.28.1-universal,igorganapolsky.thumbgate-1.28.1-universal,0.14,0.0
 jakepark.sidemirror,0.1.10-universal,jakepark.sidemirror-0.1.10-universal,0.14,0.0
-jrdev.vsc-theme-generator,0.2.5-universal,jrdev.vsc-theme-generator-0.2.5-universal,0.14,0.0
 juniorit-ai.vscode-juniorit,0.0.12-universal,juniorit-ai.vscode-juniorit-0.0.12-universal,0.14,0.0
 koichisasada.vscode-rdbg,0.2.1-universal,koichisasada.vscode-rdbg-0.2.1-universal,0.14,0.0
 ms-azuretools.vscode-docker,2.0.0-universal,ms-azuretools.vscode-docker-2.0.0-universal,0.14,0.0
@@ -2439,10 +2425,8 @@ joygqz.todo-genie,2.4.0-universal,joygqz.todo-genie-2.4.0-universal,0.03,0.0
 khannaabhi.break-trail,1.0.2-universal,khannaabhi.break-trail-1.0.2-universal,0.03,0.0
 pavel-purma.dotnet-start,0.0.4-universal,pavel-purma.dotnet-start-0.0.4-universal,0.03,0.0
 rodolfosarabo.markdown-context-injector,0.1.1-universal,rodolfosarabo.markdown-context-injector-0.1.1-universal,0.03,0.0
-rokoroku.vscode-theme-darcula,1.2.3-universal,rokoroku.vscode-theme-darcula-1.2.3-universal,0.03,0.0
 rytora.rytora-code-auth,1.0.6-universal,rytora.rytora-code-auth-1.0.6-universal,0.03,0.0
 rytora.rytora-code-publish,1.0.6-universal,rytora.rytora-code-publish-1.0.6-universal,0.03,0.0
-sapegin.emoji-console-log,1.2.5-universal,sapegin.emoji-console-log-1.2.5-universal,0.03,0.0
 snehal.snehal-anywhere-notes,1.0.4-universal,snehal.snehal-anywhere-notes-1.0.4-universal,0.03,0.0
 solomonkinard.chromium-labs,0.0.1-universal,solomonkinard.chromium-labs-0.0.1-universal,0.03,0.0
 tailgrids.tailgrids-mcp,1.0.1-universal,tailgrids.tailgrids-mcp-1.0.1-universal,0.03,0.0

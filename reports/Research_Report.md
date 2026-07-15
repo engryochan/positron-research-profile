@@ -1,6 +1,6 @@
 # Positron Research Report
 
-扩展数量：**2488**
+扩展数量：**2472**
 
 |Extension|Version|SizeGB|
 |---|---|---:|
@@ -34,23 +34,3 @@
 |panekj.powershell-preview|2021.7.0-universal|0.293|
 |darkflows.codersinflow|0.0.1765|0.291|
 |oracle.oracle-java|26.0.0-universal|0.289|
-|quickdb.quickdb|1.1.5-universal|0.286|
-|mosaico.mosaico-reference-client|0.3.0-win32-x64|0.279|
-|nxgentech.reposcope-ai|6.1.19-universal|0.279|
-|zqt.asset-manage|0.2.6-universal|0.276|
-|nvidia.nsight-copilot|2026.1.19-win32-x64|0.275|
-|knoxchat.knoxchat|1.2.7-win32-x64|0.268|
-|tinkercode.trident|0.1.3-universal|0.268|
-|microchip.mplab-ai-coding-assistant|1.2.4|0.264|
-|sourcery.sourcery|1.43.0-win32-x64|0.263|
-|youzan.zode|0.3.9|0.262|
-|salesforce.salesforcedx-einstein-gpt|4.15.0-win32-x64|0.257|
-|rjmacarthy.twinny|3.23.31-win32-x64|0.255|
-|anthropic.claude-code|2.1.210-win32-x64|0.244|
-|pixelpilotailabs.pixelpilot-copilot|3.1.1-universal|0.24|
-|debugg-ai.debugg-ai|1.0.35|0.239|
-|ourcelium.ourcelium|0.1.2-universal|0.238|
-|kowstol.container-tool-debug|2.4.5-universal|0.233|
-|google.geminicodeassist|2.91.0-universal|0.229|
-|continue.continue|2.1.0|0.224|
-|linkinsightlab.klaude|0.1.9-win32-x64|0.223|

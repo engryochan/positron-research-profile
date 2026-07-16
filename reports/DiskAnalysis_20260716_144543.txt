@@ -1,0 +1,106 @@
+﻿========================================
+      磁盘空间分析报告 - C 盘
+      生成时间：07/16/2026 15:10:05
+========================================
+
+【1. C 盘根目录下最大的 15 个文件夹】
+（仅统计一级子目录，便于整体把握）
+
+目录                   大小GB
+--                   ----
+Users               63.96
+Windows             19.19
+Program Files       19.06
+Program Files (x86) 11.75
+rtools45             3.08
+PositronTruePure     2.04
+yistong              1.14
+Telegram             0.76
+Snipaste-截图软件-x64    0.04
+Potato_Desktop       0.03
+腾讯应用宝文件管理               0
+Windows.old             0
+PerfLogs                0
+NVIDIA                  0
+inetpub                 0
+
+
+
+
+【2. 用户目录下最大的 20 个子文件夹】
+（递归统计，找出深层的大文件夹）
+
+目录               大小GB
+--               ----
+.positron       60.05
+miniconda3       1.26
+PycharmProjects  0.67
+.local           0.65
+.codex           0.55
+Downloads        0.39
+go               0.16
+
+
+
+
+【3. C 盘下最大的 30 个文件】
+（仅搜索常见路径，跳过系统目录）
+
+文件                                                                                                                     
+--                                                                                                                     
+C:\Program Files\Tencent\Androws\Image\data.vhd                                                                        
+C:\Program Files\Tencent\Androws\Image\5.10.6600.2672\system.vhd                                                       
+C:\Program Files (x86)\Google\GoogleUpdater\crx_cache\dfcdf9453a77571e6e78b4e9dc7905ac185c6e0b36af6f668cc4f713b0764878 
+C:\Users\PCCPPPCCC\Downloads\ubuntu-26.04-wsl-amd64.wsl                                                                
+C:\Program Files\Tencent\Weixin\4.1.11.24\RadiumWMPF.bin                                                               
+C:\Users\PCCPPPCCC\.positron\extensions\openai.chatgpt-26.5707.71524-win32-x64\bin\windows-x86_64\codex.exe            
+C:\Users\PCCPPPCCC\.codex\plugins\.plugin-appserver\codex.exe                                                          
+C:\Program Files (x86)\Microsoft\EdgeCore\149.0.4022.98\msedge.dll                                                     
+C:\Program Files (x86)\Microsoft\EdgeCore\Optimized\msedge.dll                                                         
+C:\Users\PCCPPPCCC\PycharmProjects\FastAPIProject\【英博体育_电子】7-6-7-13_结算_全阶段_3576.xlsx                                   
+C:\Program Files (x86)\Microsoft\Edge\Application\149.0.4022.98\msedge.dll                                             
+C:\Program Files (x86)\Microsoft\EdgeWebView\Application\149.0.4022.98\msedge.dll                                      
+C:\Program Files\YeeChat\YeeChat\resources\app.asar                                                                    
+C:\Users\PCCPPPCCC\.positron\extensions\openai.chatgpt-26.5707.71524-win32-x64\bin\linux-x86_64\codex                  
+C:\Program Files\Google\Chrome\Application\150.0.7871.124\chrome.dll                                                   
+C:\Users\PCCPPPCCC\miniconda3\pkgs\cache\5afe41e9.json                                                                 
+C:\Users\PCCPPPCCC\.positron\extensions_backup_20260715_222541\anthropic.claude-code-2.1.210-win32-x64\resources\nat...
+C:\Program Files (x86)\Google\GoogleUpdater\crx_cache\4bf5559c4aebac15c550a4dee61f5c3e242674eba40bd8be3b755c081bd68093 
+C:\Users\PCCPPPCCC\.positron\extensions\salesforce.salesforcedx-einstein-gpt-4.15.0-win32-x64\dist\node_modules\@ant...
+C:\Users\PCCPPPCCC\.local\bin\claude.exe                                                                               
+C:\Users\PCCPPPCCC\.positron\extensions\highagency.pencildev-0.6.61-universal\node_modules\@anthropic-ai\claude-agen...
+C:\Users\PCCPPPCCC\.local\share\claude\versions\2.1.209                                                                
+C:\Program Files\Tencent\Androws\Application\5.10.6600.6173\libcef.dll                                                 
+C:\Program Files\RStudio\rstudio.exe                                                                                   
+C:\Program Files\RStudio\resources\app\bin\quarto\bin\tools\pandoc.exe                                                 
+C:\Program Files\JetBrains\PyCharm 2026.1.4\jbr\bin\libcef.dll                                                         
+C:\Users\PCCPPPCCC\.positron\extensions\linkinsightlab.klaude-0.1.9-win32-x64\node_modules\@anthropic-ai\claude-code...
+C:\Users\PCCPPPCCC\.positron\extensions\highagency.pencildev-0.6.61-universal\node_modules\@anthropic-ai\claude-agen...
+C:\Users\PCCPPPCCC\.positron\extensions\salesforce.salesforcedx-agentforce-vibes-2-0.12.14-win32-x64\dist\claude-win...
+C:\Program Files\obs-studio\obs-plugins\64bit\libcef.dll                                                               
+
+
+
+
+【4. 常见“空间刺客”目录大小】
+
+目录                                         大小GB
+--                                         ----
+C:\Users\PCCPPPCCC\Downloads               0.39
+C:\Users\PCCPPPCCC\Documents\Tencent Files    0
+C:\Users\PCCPPP~1\AppData\Local\Temp        0.1
+C:\Windows\Temp                               0
+
+
+
+
+【5. 清理建议】
+- 上述“常见空间刺客”中的 Downloads、WeChat Files、Tencent Files 可以手动清理或迁移。
+- 临时目录（Temp）中的文件可以安全删除（运行 cleanmgr 或手动删除）。
+- 如果发现大型的 .iso、.msi、.zip 等安装包，可以删除已安装过的。
+- Positron 扩展已清理过，但可再检查是否有残留的大扩展。
+- 系统休眠文件已关闭，页面文件可迁移到 D 盘。
+
+========================================
+报告已保存至：C:\Users\PCCPPPCCC\Desktop\DiskAnalysis_20260716_144543.txt
+========================================

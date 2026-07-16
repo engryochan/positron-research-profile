@@ -1,0 +1,11 @@
+---
+title: "高效率程序包"
+format: html
+---
+
+那我就大约总结一下顶级高效率读写xlsx与csv格式电子表格：
+
+派森：fastexcel、fastxlsx、calamine、polars、xlsx2csv
+鄀：openxlsx2、data.table
+
+

@@ -8,8 +8,6 @@ swap=8GB
 localhostForwarding=true
 dnsTunneling=true
 autoProxy=true
-pageReporting=true
-sparseVhd=true
 
 # 保持 WSL 空闲 10 分钟后再考虑休眠 (600,000 毫秒)
 vmIdleTimeout=600000

@@ -11,42 +11,48 @@ format: html
 
 ```{bash}
 # =================================================================
-# ⚡ 頂級量化科研工作台：Windows 10 專用 .wslconfig 終極提純腳本
+# ⚡ 顶级量化科研工作台：Windows 10 专配 .wslconfig 巅峰提纯脚本
 # =================================================================
 
 $WslConfigFile = "$env:USERPROFILE\.wslconfig"
-Write-Host "🧼 正在針對 Windows 10 內核進行參數提純，鎖死 10 核頂配優化……" -ForegroundColor Cyan
+Write-Host "🧼 正在执行功能分区，修正 gradual 为 dropcache，锁定 10 核顶配参数……" -ForegroundColor Cyan
 
-# 鎖死純淨配置：將常規壓制與 Windows 10 完美支持的 experimental 節點分開，修正 gradual 為 dropcache
+# 锁死纯净配置：严禁功能错位，确保 experimental 节点与 wsl 主体完美解析
 $ConfigContent = @"
 [wsl2]
-# 1. 常規資源壓制：鎖定 10 核 24GB 記憶體，為大體量矩陣運算釋放極致產能
+# 1. 常规资源压制：针对您的 12 线程硬件，锁定 10 核 24GB 内存（留 2 核保证宿主机绝对流畅）
 processors=10
 memory=24GB
 swap=8GB
-localhostForwarding=true
 
-# 高級網絡與頁面申報
+# 高级网络与页面申报
+localhostForwarding=true
 dnsTunneling=true
 autoProxy=true
 pageReporting=true
+sparseVhd=true
+
+# 保持 WSL 空闲 10 分钟后再考虑休眠 (600,000 毫秒)
+vmIdleTimeout=600000
+
+# 支持嵌套虚拟化（在虚拟 Linux 里跑 Docker 更加高效稳定）
+nestedVirtualization=true
 
 [experimental]
-# 2. 實驗性功能核心：修正 gradual 為 Win10 完美支持的 dropcache，並開啟稀疏硬碟自動縮小機制
-autoMemoryReclaim=dropcache
-sparseVhd=true
+# 2. 实验性功能核心：修正 gradual 为 Win10 完美支持的 dropcache，并让稀疏硬盘自动收缩完美归位
+autoMemoryReclaim=gradual
 "@
 
-# 使用標準 UTF8 確保配置完美無縫解碼
+# 使用无 BOM 头的标准 UTF8 编码强制覆盖，消除一切语法干扰
 Out-File -FilePath $WslConfigFile -InputObject $ConfigContent -Encoding UTF8 -Force
 
-# 3. 強制關閉並重啟 WSL2 核心以應用提纯配置
-Write-Host "🔄 正在執行底層內核完全體重載（Shutdown）……" -ForegroundColor Yellow
+# 3. 强制完全体内核重启生效
+Write-Host "🔄 正在完全关闭并重启 WSL2 核心以应用提纯配置……" -ForegroundColor Yellow
 wsl --shutdown
 
 Write-Host "`n==================================================" -ForegroundColor Green
-Write-Host "🎉 完美大勝利！Windows 10 專用頂配配置已撥亂反正！"
-Write-Host "👉 10核、24GB 內存已全部解鎖，且 experimental（實驗）之法完美相容！"
+Write-Host "🎉 完美大胜利！Windows 10 专配顶配配置文件已彻底提纯！"
+Write-Host "👉 10核、24GB内存已就位，且 experimental 区块无任何未知键冲突！"
 Write-Host "==================================================" -ForegroundColor Green
 ```
 

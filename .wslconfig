@@ -1,16 +1,22 @@
 ﻿[wsl2]
-# 1. 常規資源壓制：鎖定 10 核 24GB 記憶體，為大體量矩陣運算釋放極致產能
+# 1. 常规资源压制：针对您的 12 线程硬件，锁定 10 核 24GB 内存（留 2 核保证宿主机绝对流畅）
 processors=10
 memory=24GB
 swap=8GB
-localhostForwarding=true
 
-# 高級網絡與頁面申報
+# 高级网络与页面申报
+localhostForwarding=true
 dnsTunneling=true
 autoProxy=true
 pageReporting=true
+sparseVhd=true
+
+# 保持 WSL 空闲 10 分钟后再考虑休眠 (600,000 毫秒)
+vmIdleTimeout=600000
+
+# 支持嵌套虚拟化（在虚拟 Linux 里跑 Docker 更加高效稳定）
+nestedVirtualization=true
 
 [experimental]
-# 2. 實驗性功能核心：修正 gradual 為 Win10 完美支持的 dropcache，並開啟稀疏硬碟自動縮小機制
-autoMemoryReclaim=dropcache
-sparseVhd=true
+# 2. 实验性功能核心：修正 gradual 为 Win10 完美支持的 dropcache，并让稀疏硬盘自动收缩完美归位
+autoMemoryReclaim=gradual

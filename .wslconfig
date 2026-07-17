@@ -1,13 +1,15 @@
 ﻿[wsl2]
 # 1. 常规资源压制：针对您的 12 线程硬件，锁定 10 核 24GB 内存（留 2 核保证宿主机绝对流畅）
 processors=10
-memory=24GB
+memory=12GB
 swap=8GB
 
 # 高级网络与页面申报
-localhostForwarding=true
-dnsTunneling=true
-autoProxy=true
+# localhostForwarding=true
+# dnsTunneling=true
+# autoProxy=true
+# pageReporting=true
+# sparseVhd=true
 
 # 保持 WSL 空闲 10 分钟后再考虑休眠 (600,000 毫秒)
 vmIdleTimeout=600000

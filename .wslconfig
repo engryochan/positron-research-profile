@@ -1,0 +1,16 @@
+﻿[wsl2]
+# 1. 常規資源壓制：鎖定 10 核 24GB 記憶體，為大體量矩陣運算釋放極致產能
+processors=10
+memory=24GB
+swap=8GB
+localhostForwarding=true
+
+# 高級網絡與頁面申報
+dnsTunneling=true
+autoProxy=true
+pageReporting=true
+
+[experimental]
+# 2. 實驗性功能核心：修正 gradual 為 Win10 完美支持的 dropcache，並開啟稀疏硬碟自動縮小機制
+autoMemoryReclaim=dropcache
+sparseVhd=true

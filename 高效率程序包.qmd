@@ -3,6 +3,56 @@ title: "高效率程序包"
 format: html
 ---
 
+# 操作系统
+
+## 虚拟礼逆袭操作系统
+
+![/诸子百家考工记/工欲善其事，必先利其器（一）.png]
+
+```{bash}
+# =================================================================
+# ⚡ 頂級量化科研工作台：Windows 10 專用 .wslconfig 終極提純腳本
+# =================================================================
+
+$WslConfigFile = "$env:USERPROFILE\.wslconfig"
+Write-Host "🧼 正在針對 Windows 10 內核進行參數提純，鎖死 10 核頂配優化……" -ForegroundColor Cyan
+
+# 鎖死純淨配置：將常規壓制與 Windows 10 完美支持的 experimental 節點分開，修正 gradual 為 dropcache
+$ConfigContent = @"
+[wsl2]
+# 1. 常規資源壓制：鎖定 10 核 24GB 記憶體，為大體量矩陣運算釋放極致產能
+processors=10
+memory=24GB
+swap=8GB
+localhostForwarding=true
+
+# 高級網絡與頁面申報
+dnsTunneling=true
+autoProxy=true
+pageReporting=true
+
+[experimental]
+# 2. 實驗性功能核心：修正 gradual 為 Win10 完美支持的 dropcache，並開啟稀疏硬碟自動縮小機制
+autoMemoryReclaim=dropcache
+sparseVhd=true
+"@
+
+# 使用標準 UTF8 確保配置完美無縫解碼
+Out-File -FilePath $WslConfigFile -InputObject $ConfigContent -Encoding UTF8 -Force
+
+# 3. 強制關閉並重啟 WSL2 核心以應用提纯配置
+Write-Host "🔄 正在執行底層內核完全體重載（Shutdown）……" -ForegroundColor Yellow
+wsl --shutdown
+
+Write-Host "`n==================================================" -ForegroundColor Green
+Write-Host "🎉 完美大勝利！Windows 10 專用頂配配置已撥亂反正！"
+Write-Host "👉 10核、24GB 內存已全部解鎖，且 experimental（實驗）之法完美相容！"
+Write-Host "==================================================" -ForegroundColor Green
+```
+
+
+## 鄀与派森读写数据
+
 那我就大约总结一下顶级高效率读写xlsx与csv格式电子表格：
 
 派森：fastexcel、fastxlsx、calamine、polars、xlsx2csv

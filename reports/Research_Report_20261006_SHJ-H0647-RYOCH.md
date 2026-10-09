@@ -2,13 +2,13 @@
 
 | 項目 | 內容 |
 |---|---|
-| 報告日期 | 2026-10-06 |
+| 報告日期 | 2026-10-06（**2026-10-09 複核並更新**，見第九節） |
 | 新主機 | `SHJ-H0647-RYOCH`／使用者 `PPCCpcpc` |
 | 舊主機 | `PCCPPPCCC`（依 `positron已安裝的扩展列表.txt` 內殘留的提示符還原） |
 | 硬體 | Intel i5-12400（6 核 12 執行緒）／31.8 GB RAM／Windows 10 Pro 19045 |
 | 倉庫分支 | `世博量化研究院` @ `ba27dfc` |
-| 本輪倉庫改動 | **0**（`git status --porcelain` 為空，現有文件一律未改） |
-| 結論 | 組件齊備、**版本退化 0 項**、實測 11/11 通過；餘 1 項待您決策（WSL2） |
+| 本輪倉庫改動 | **0**（既有 41 個文件一律未改，`git diff` 為空；僅新增本報告） |
+| 結論 | 組件齊備、**版本退化 0 項**、實測 **11/11 通過**（10-06 與 10-09 兩輪皆通過）；餘 1 項待您決策（WSL2） |
 
 ---
 
@@ -60,14 +60,16 @@
 
 ### 3.1 總覽
 
-| 指標 | 本輪前 | 本輪後 |
-|---|---:|---:|
-| 啟用擴展數 | 14 | **36** |
-| 磁碟目錄數 | 14 | **36** |
-| 重複版本 | 0 | **0** |
-| 總容量 | — | **3.11 GB** |
+| 指標 | 本輪前 | 10-06 完成時 | 10-09 複核 |
+|---|---:|---:|---:|
+| 啟用擴展數 | 14 | 36 | **37** |
+| 磁碟目錄數 | 14 | 36 | **37** |
+| 重複版本 | 0 | 0 | **0** |
+| 總容量 | — | 3.11 GB | **3.89 GB** |
 
 （對照舊主機：2500 個擴展，前 30 名即約 12 GB。）
+
+> 10-09 多出的 1 個是 `aurora-them-creator.theme-aurora-nocturne@1.0.3`——**不在本項目任何策展清單內，也非本輪安裝**，詳見 9.2。
 
 ### 3.2 策展清單逐項落地情況
 
@@ -112,24 +114,27 @@
 
 ### 3.3 「只升不降」核對（對照舊主機 2474 筆版本記錄）
 
+10-09 複核結果：
+
 ```
-升級 12 項 | 相同 16 項 | 退化 0 項 | 舊清單未收錄 8 項
+升級 13 項 | 相同 15 項 | 退化 0 項 | 舊清單未收錄 9 項
 ```
 
-| 擴展 | 舊主機 | 本機 |
-|---|---|---|
-| posit.assistant | 0.7.0 | **1.6.1** |
-| posit.publisher | 2.8.0 | **2.13.16** |
-| posit.air-vscode | 0.26.0 | **0.30.0** |
-| posit.shiny | 1.4.1 | **1.4.3** |
-| charliermarsh.ruff | 2026.60.0 | **2026.84.0** |
-| quarto.quarto | 1.135.0 | **1.138.0** |
-| meta.pyrefly | 1.1.1 | **1.3.1** |
-| kilocode.kilo-code | 7.4.7 | **7.8.3** |
-| anthropic.claude-code | 2.1.210 | **2.1.291** |
-| saoudrizwan.claude-dev | 4.0.8 | **4.1.22** |
-| google.geminicodeassist | 2.91.0 | **2.100.0** |
-| github.vscode-pull-request-github | 0.144.0 | **0.162.0** |
+| 擴展 | 舊主機 | 10-06 | 10-09（最終） |
+|---|---|---|---|
+| posit.assistant | 0.7.0 | 1.6.1 | **1.7.0** |
+| posit.publisher | 2.8.0 | 2.13.16 | **2.13.16** |
+| posit.air-vscode | 0.26.0 | 0.30.0 | **0.30.0** |
+| posit.shiny | 1.4.1 | 1.4.3 | **1.4.3** |
+| charliermarsh.ruff | 2026.60.0 | 2026.84.0 | **2026.84.0** |
+| quarto.quarto | 1.135.0 | 1.138.0 | **1.138.0** |
+| meta.pyrefly | 1.1.1 | 1.3.1 | **1.3.1** |
+| kilocode.kilo-code | 7.4.7 | 7.8.3 | **7.8.8** |
+| anthropic.claude-code | 2.1.210 | 2.1.291 | **2.1.295** |
+| saoudrizwan.claude-dev | 4.0.8 | 4.1.22 | **4.1.23** |
+| google.geminicodeassist | 2.91.0 | 2.100.0 | **2.104.0** |
+| github.vscode-pull-request-github | 0.144.0 | 0.162.0 | **0.162.0** |
+| **openai.chatgpt** | 26.5707.71524 | 26.5707.71524（持平） | **26.5730.61309（轉為升級）** |
 
 ### 3.4 過程中出現並已修正的 2 次版本退化
 
@@ -138,20 +143,19 @@
 | 擴展 | 鏡像給的 latest | 舊主機版本 | 最終釘選 | 結果 |
 |---|---|---|---|---|
 | `continue.continue` | 2.0.0 | 2.1.0 | **2.1.0** | 已是上游最新 |
-| `openai.chatgpt` | 26.721.30844 | 26.5707.71524 | **26.5707.71524** | 與舊主機同版（上游 26.5908.31748 鏡像尚未同步，無法安裝） |
+| `openai.chatgpt` | 26.721.30844 | 26.5707.71524 | **26.5707.71524** | 10-06 僅能與舊主機持平；10-09 鏡像同步後已自動升至 **26.5730.61309**，由「持平」轉為「升級」 |
 
 釘選後留下 3 個舊版本殘留目錄（continue 2.0.0、chatgpt 26.721.30844、publisher 2.12.0），已依「Positron 實際啟用版本」精準刪除，現為 0 重複。
 
-### 3.5 仍落後上游的 4 項（純屬鏡像同步延遲，皆不低於舊主機）
+### 3.5 仍落後上游的 3 項（純屬鏡像同步延遲，皆不低於舊主機）
 
-| 擴展 | 本機 | OpenVSX 上游 | 鏡像可安裝 |
+| 擴展 | 本機（10-09） | OpenVSX 上游 | 鏡像可安裝 |
 |---|---|---|---|
-| `eamodio.gitlens` | 19.3.0 | 2026.10.60516 | ✗ |
-| `github.vscode-pull-request-github` | 0.162.0 | 0.166.1 | ✗ |
-| `openai.chatgpt` | 26.5707.71524 | 26.5908.31748 | ✗ |
-| `meta.pyrefly` | 1.3.1 | 1.3.9003 | ✗（且 9003 為預發行版，依「穩定性優先」不應採用） |
+| `eamodio.gitlens` | 19.3.0 | 2026.10.60516 | ✗（10-09 以 `--force` 重試，鏡像仍只有 19.3.0） |
+| `github.vscode-pull-request-github` | 0.162.0 | 0.166.1 | ✗（同上） |
+| `meta.pyrefly` | 1.3.1 | 1.3.9003 | ✗；且 9003 為預發行版，依「穩定性優先」本就不應採用 |
 
-鏡像同步後執行 `positron --update-extensions` 即可自動跟上。
+`openai.chatgpt` 原列於此，10-09 鏡像已同步並自動升級，已移出本表。鏡像同步後執行 `positron --update-extensions` 即可自動跟上。
 
 ---
 
@@ -344,6 +348,54 @@ positron --install-extension posit.publisher@2.13.16
 positron --install-extension continue.continue@2.1.0         # 修正 2.0.0 退化
 positron --install-extension openai.chatgpt@26.5707.71524    # 修正版號退化
 ```
+
+---
+
+## 九、2026-10-09 複核
+
+### 9.1 期間自動升級的 6 項（全部為升級，無退化）
+
+| 擴展 | 10-06 | 10-09 |
+|---|---|---|
+| `anthropic.claude-code` | 2.1.291 | **2.1.295** |
+| `openai.chatgpt` | 26.5707.71524 | **26.5730.61309** |
+| `google.geminicodeassist` | 2.100.0 | **2.104.0** |
+| `kilocode.kilo-code` | 7.8.3 | **7.8.8** |
+| `posit.assistant` | 1.6.1 | **1.7.0** |
+| `saoudrizwan.claude-dev` | 4.1.22 | **4.1.23** |
+
+`claude-code` 升級後留下 `2.1.294` 殘留目錄，已依「以 Positron 實際啟用版本為準」刪除；現 **37 個目錄／37 個啟用／0 重複／3.89 GB**。
+
+### 9.2 出現 1 個不屬於本項目的主題擴展
+
+`aurora-them-creator.theme-aurora-nocturne@1.0.3` 既不在 `ResearchProfile.txt`／`keep.json`／`categories.json`／`install-positron-with-best-suit.ps1` 任何一份策展清單中，也不是本輪安裝的。
+
+依本項目既有策展政策，這類擴展屬移除對象——`generate_remove.py` 會把它分類為 `Theme` 並寫入 `Remove.csv`，`Remove-VisualExtensions.ps1` 的硬編碼名單也正是同類主題。
+
+**未自行刪除**：有可能是您自己挑的配色方案。若要移除：
+
+```powershell
+positron --uninstall-extension aurora-them-creator.theme-aurora-nocturne
+```
+
+### 9.3 複核實測結果（11/11 再次全數通過）
+
+| 項目 | 結果 |
+|---|---|
+| 派森 3.14.8（ds314） | polars 652 ms／fastexcel 442 ms／calamine 92 ms／xlsx2csv 16 ms — 4/4 PASS |
+| 派森 3.13.16（ds） | polars 549 ms／fastexcel 415 ms／calamine 96 ms／xlsx2csv 15 ms — 4/4 PASS |
+| 派森 3.12.15（xlsx312） | fastxlsx 寫 10.1 ms／讀 <1 ms，往返一致 — PASS |
+| 鄀（R）4.6.1 | openxlsx2 寫 347 ms／讀 38 ms；data.table 2 ms／2 ms，均往返一致 — PASS |
+| 跨語言互通 | 雙向 3 項全 PASS，中日韓字元無亂碼 |
+| 工具鏈 | Positron 2026.09.1 build 2／Quarto 1.10.18／uv 0.12.23 — 一致 |
+
+### 9.4 第七節 3 項待決事項狀態
+
+| 事項 | 狀態 |
+|---|---|
+| 7.1 WSL2 安裝 | **仍待您決策**（需管理員權限與重開機） |
+| 7.2 `python.venvPath` 設定 | **仍待您決策**（涉及既有 `settings.json`） |
+| 7.3 鏡像同步後補升級 | 已執行 `--update-extensions`；`openai.chatgpt` 已追上，餘 3 項鏡像尚未同步（見 3.5） |
 
 ---
 

@@ -2,13 +2,13 @@
 
 | 項目 | 內容 |
 |---|---|
-| 報告日期 | 2026-10-06（**2026-10-09 複核並更新**，見第九節） |
+| 報告日期 | 2026-10-06；**2026-10-09 複核（第九節）並依指示變更 WSL2／派森統一／venvPath（第十節）** |
 | 新主機 | `SHJ-H0647-RYOCH`／使用者 `PPCCpcpc` |
 | 舊主機 | `PCCPPPCCC`（依 `positron已安裝的扩展列表.txt` 內殘留的提示符還原） |
 | 硬體 | Intel i5-12400（6 核 12 執行緒）／31.8 GB RAM／Windows 10 Pro 19045 |
 | 倉庫分支 | `世博量化研究院` @ `ba27dfc` |
 | 本輪倉庫改動 | **0**（既有 41 個文件一律未改，`git diff` 為空；僅新增本報告） |
-| 結論 | 組件齊備、**版本退化 0 項**、實測 **11/11 通過**（10-06 與 10-09 兩輪皆通過）；餘 1 項待您決策（WSL2） |
+| 結論 | 組件齊備、**版本退化 0 項**、實測全數通過；WSL2 3.0.1.0 已裝（無發行版，**待重開機生效**）、派森已統一為單一 3.13.16、`python.venvPath` 已設 |
 
 ---
 
@@ -161,6 +161,8 @@
 
 ## 四、派森（Python）：版本決策
 
+> ⚠️ **本節為 10-06 的決策，已於 10-09 依指示改為「全機統一單一版本」而被取代。** 4.1～4.3 的現狀調查與相容性證據仍然有效且是新決策的依據；4.4 的三環境配置已失效，現行配置見 **10.2**。
+
 ### 4.1 本機原狀
 
 PATH 上的 `python.exe` 是 **Microsoft Store 的 0 位元組佔位檔**，`pip` 不存在——等同沒有可用的 Python。實際解譯器由 `uv 0.12.23` 託管於 `C:\work\pythons`，原有 3.13.16 與 3.12.15。
@@ -271,6 +273,8 @@ R 本體 4.6.1（2026-06-24 ucrt），庫路徑 `C:/work/R/R-4.6.1/library`；�
 
 ## 七、尚未處理、需您決定的 3 件事
 
+> ⚠️ **7.1 與 7.2 已於 10-09 依指示完成，見第十節。** 以下保留原始評估記錄。
+
 ### 7.1 WSL2 虛擬 Linux（唯一的真正缺口）
 
 本機 `wsl.exe` 存在但**無任何發行版**，且 `C:\Users\PPCCpcpc\.wslconfig` **不存在**。倉庫的 `.wslconfig` 與 qmd 中的調校腳本因此尚無作用對象。
@@ -370,13 +374,11 @@ positron --install-extension openai.chatgpt@26.5707.71524    # 修正版號退�
 
 `aurora-them-creator.theme-aurora-nocturne@1.0.3` 既不在 `ResearchProfile.txt`／`keep.json`／`categories.json`／`install-positron-with-best-suit.ps1` 任何一份策展清單中，也不是本輪安裝的。
 
-依本項目既有策展政策，這類擴展屬移除對象——`generate_remove.py` 會把它分類為 `Theme` 並寫入 `Remove.csv`，`Remove-VisualExtensions.ps1` 的硬編碼名單也正是同類主題。
+依本項目既有策展政策，這類擴展本屬移除對象——`generate_remove.py` 會把它分類為 `Theme` 並寫入 `Remove.csv`，`Remove-VisualExtensions.ps1` 的硬編碼名單也正是同類主題。
 
-**未自行刪除**：有可能是您自己挑的配色方案。若要移除：
+**已確認為使用者自行設定的主題，予以保留**；`settings.json` 中亦有對應的 `"workbench.colorTheme": "Aurora Nocturne"`。
 
-```powershell
-positron --uninstall-extension aurora-them-creator.theme-aurora-nocturne
-```
+> 本項目日後若執行 `generate_remove.py` → `remove.py` 的清理鏈，**此擴展會被誤刪**，執行前請先把它從 `Remove.csv` 剔除，或加進 `keep.json`。
 
 ### 9.3 複核實測結果（11/11 再次全數通過）
 
@@ -393,9 +395,226 @@ positron --uninstall-extension aurora-them-creator.theme-aurora-nocturne
 
 | 事項 | 狀態 |
 |---|---|
-| 7.1 WSL2 安裝 | **仍待您決策**（需管理員權限與重開機） |
-| 7.2 `python.venvPath` 設定 | **仍待您決策**（涉及既有 `settings.json`） |
+| 7.1 WSL2 安裝 | 10-09 **已完成**，見 10.1 |
+| 7.2 `python.venvPath` 設定 | 10-09 **已完成**，見 10.3 |
 | 7.3 鏡像同步後補升級 | 已執行 `--update-extensions`；`openai.chatgpt` 已追上，餘 3 項鏡像尚未同步（見 3.5） |
+
+---
+
+## 十、2026-10-09 依指示執行的三項變更
+
+### 10.1 安裝 WSL2 穩定版，不帶任何發行版
+
+安裝前狀態：`Microsoft-Windows-Subsystem-Linux` 與 `VirtualMachinePlatform` 皆 **Disabled**；`wsl.exe` 僅為 Windows 10 內建舊版（不支援 `--version`）。BIOS 虛擬化已開啟（`VirtualizationFirmwareEnabled = True`）。
+
+以提權執行：
+
+```powershell
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+wsl.exe --install --no-distribution --web-download
+```
+
+安裝後：
+
+| 項目 | 結果 |
+|---|---|
+| `VirtualMachinePlatform` | **Enabled** |
+| `Microsoft-Windows-Subsystem-Linux` | **Enabled** |
+| WSL 套件 | `MicrosoftCorporationII.WindowsSubsystemForLinux` **3.0.1.0** |
+| WSL 版本 | WSL **3.0.1.0**／核心 **6.18.40.1-1**／WSLg 1.0.79／MSRDC 1.2.7214 |
+| 發行版 | **0 個**（註冊表 `Lxss` 鍵下無任何登記，依指示不裝） |
+| 生效條件 | **需重新啟動**（`wsl --list` 目前回報 `Wsl/WSL_E_WSL_OPTIONAL_COMPONENT_REQUIRED`） |
+
+採用 `--web-download` 取得 GitHub 正式發行的**穩定版**（非 `--pre-release`，亦不依賴 Microsoft Store）。選 WSL 3.0.1.0 這條獨立套件路線而非 Windows 10 內建舊元件，正是為了相容最前沿的 `.wslconfig` 鍵——倉庫 `.wslconfig` 與 `高效率程序包.qmd` 所用的 `dnsTunneling`、`autoProxy`、`sparseVhd`、`autoMemoryReclaim`、`nestedVirtualization`、`pageReporting` **全部需要獨立套件版才支援**，舊內建元件一概不認。
+
+### 10.2 派森統一為單一版本：3.13.16
+
+**為什麼是 3.13.16 而非 3.14.8**——用 `uv pip compile` 對 42 項頂尖組件做實際依賴解析，兩個版本都能解出 279 個套件，但解出的**版本穩定度**不同：
+
+| 組件 | 在 3.13 解出 | 在 3.14 解出 |
+|---|---|---|
+| `tensorflow` | **2.21.0（正式穩定版）** | **2.22.0rc0（候選版）** |
+| `keras` | **3.15.1（正式穩定版）** | 解不出 → 改用 **keras-nightly 3.16.0.dev2026100904** |
+| `h5py` | 3.14.0 | 3.15.1 |
+| 其餘 276 項 | 完全相同 | 完全相同 |
+
+亦即：**42 項頂尖組件中，只有 3.13 能讓全部都落在正式穩定版**；3.14 會把 TensorFlow 拖進 RC 並被迫引入 nightly 版 Keras。依「穩定版中兼容最多前沿高端頂尖組件」的標準，3.13.16 勝出。torch 2.14.1、jaxlib、numba 0.68、scipy、pyarrow、ray、catboost、quantlib、onnx、shap 等在兩個版本上都有 Windows 輪子，不構成差異。
+
+附帶好處：3.13.16 原本就是本機 6 個既有環境、1387 筆套件安裝所在的版本，統一到它**不需要重建任何既有環境**。
+
+執行內容：
+
+| 動作 | 結果 |
+|---|---|
+| 移除 venv `ds314`（3.14.8） | 已刪 |
+| 移除 venv `xlsx312`（3.12.15） | 已刪 |
+| `uv python uninstall 3.14` | 已卸載 cpython-3.14.8 |
+| `uv python uninstall 3.12` | 已卸載 cpython-3.12.15 |
+| 修復殘破 shim | 見 10.4 |
+
+`C:\work\pythons` 現僅存 3.13.16（`cpython-3.13-windows-x86_64-none` 與 `cpython-3.13.16-...` 是 uv 對**同一版本**的兩個目錄別名，非兩個版本；6 個環境全綁定前者，未動）。`C:\work\envs` 現為 `ds`／`fin`／`mlops`／`nlp`／`rl`／`xai` 六個，**全部 Python 3.13.16**。
+
+**代價：`fastxlsx` 能力移除。** 該包上游釘死 `requires_python <3.13`，在統一為單一版本的前提下無處安放。替代方案已就位且均已實測：讀 xlsx 用 `fastexcel` 0.21.0 ／ `python-calamine` 0.8.2，寫 xlsx 用 `polars.write_excel`（後端 `xlsxwriter` 3.2.9）或 `openpyxl` 3.1.5，xlsx→csv 用 `xlsx2csv` 0.8.6。
+
+### 10.3 `python.venvPath` 設定
+
+`%APPDATA%\Positron\User\settings.json` 已備份為 `settings.json.bak-20261009`，然後新增兩行（其餘設定含您的 `workbench.colorTheme` 原樣保留，JSON 已驗證合法）：
+
+```json
+"python.venvPath": "C:\\work\\envs",
+"python.defaultInterpreterPath": "C:\\work\\envs\\ds\\Scripts\\python.exe",
+```
+
+`venvPath` 讓 Positron 的解譯器選單直接列出 `C:\work\envs` 下全部 6 個環境；多加的 `defaultInterpreterPath` 讓新工作區預設落在主環境 `ds`（它是 `RETICULATE_PYTHON` 的指向，731 個套件）。
+
+### 10.4 過程中處理掉的兩件意外
+
+**(1) `browser-use` MCP 伺服器卡住 3.12 的刪除。** `uv python uninstall 3.12` 第一次回報「拒絕存取」。追查到 PID 209952 正在執行
+`C:\work\pythons\cpython-3.12-windows-x86_64-none\python.exe ... browser-use.exe --cli-mcp`，
+即本 session 的 `browser-use` MCP 伺服器，鏡像檔被映射而無法刪除。
+
+未直接砍掉，先確認遷移安全：`browser-use` 0.13.11 宣告 `requires_python >=3.11,<4.0`，且 `uv pip compile` 驗證它連同 **106 個依賴在 3.13 上全部可解析**。它也不是常駐 `uv tool`（`uv tool list` 為空），而是由 MCP 用 uv 臨時啟動——3.12 消失後會自動改用 3.13。確認無虞後才停止該行程並完成卸載。
+
+> 該 MCP 伺服器已被停止，會由用戶端自動重啟並改用 3.13；若本 session 的瀏覽器工具暫時無回應，重載 session 即可。
+
+**(2) 修復一個既存的殘破 uv shim。** `C:\Users\PPCCpcpc\.local\bin\python3.13.exe`（46592 B，時間戳 2026-10-06 07:43，早於本任務）是指向已不存在解譯器的 uv trampoline，執行時報 `uv trampoline failed to spawn Python child process`。它一度讓 `uv pip install` 直接失敗（`error: Failed to inspect Python interpreter from first executable in the search path`）。已移除，uv 指令恢復正常（exit 0、無警告）。
+
+### 10.5 統一後的完整回歸實測
+
+| 項目 | 結果 |
+|---|---|
+| 唯一派森 3.13.16（ds） | polars 690 ms／fastexcel 400 ms／calamine 89 ms／xlsx2csv 15 ms — **4/4 PASS** |
+| 鄀（R）4.6.1 | openxlsx2 寫 356 ms／讀 37 ms；data.table 3 ms／2 ms — **PASS**，均往返一致 |
+| 跨語言互通 | 雙向 3 項 **全 PASS**，中日韓字元無亂碼 |
+| 倉庫腳本 | `curate.py`（37 擴展／0 重複／3.89 GB／5.4 秒）、`classify.py`、`generate_remove.py` — **全 PASS** |
+| Positron／擴展 | 2026.09.1 build 2／**37 個擴展**／0 重複 |
+
+`fastxlsx` 一項按 10.2 的決定已不再適用，其餘全數通過。
+
+### 10.6 還需您做一件事
+
+**重新啟動電腦**，WSL2 才會生效。重開機後可驗證：
+
+```powershell
+wsl --status
+wsl --list --verbose
+```
+
+屆時若要裝發行版（您目前指示先不裝）：
+
+```powershell
+wsl --install -d Ubuntu --web-download
+```
+
+套用倉庫的 `.wslconfig` 調校時，請手動複製 `高效率程序包.qmd` 中該區塊的內容執行，**不要用 Quarto 渲染該文件**（原因見 1.4.1）。
+
+---
+
+## 十一、Positron 與派森環境實測（2026-10-09，重開機前）
+
+### 11.1 Positron 啟動實測
+
+以 `C:\work\Positron\Positron.exe <本項目路徑>` 啟動：
+
+| 檢查項 | 結果 |
+|---|---|
+| 行程 | **10 個**（主行程 + GPU/工具/擴展宿主） |
+| 主視窗標題 | `Welcome - positron-research-profile - Positron` |
+| 版本 | Positron 2026.09.1 build 2 |
+| 擴展 | 37 個全部載入 |
+
+**解譯器探索已生效的直接證據**：Positron 的派森擴展在 `%APPDATA%\Positron\User\globalStorage\ms-python.python\pycache\` 下建立了對應 `ds`／`fin`／`mlops`／`nlp`／`rl`／`xai` 六個環境加 `cpython-3.13.16` 的位元碼快取——這正是它透過 10.3 設定的 `python.venvPath` 掃到全部 6 個環境的結果。
+
+### 11.2 派森執行期端到端實測（走 Positron 主控台同一條路徑）
+
+Positron 的派森主控台是以 Jupyter 核心協定驅動的。用 `jupyter_client` 真正啟動核心並執行程式碼：
+
+```
+核心堆疊  ipykernel 7.3.0 / jupyter_client 8.10.0 / IPython 9.17.1
+啟動核心  ds
+kernel python : 3.13.16
+kernel exe    : C:\work\envs\ds\Scripts\python.exe
+sys.prefix    : C:\work\envs\ds
+polars         : 1.44.2 | wrote 6341 B
+fastexcel      : 0.21.0 | read (3, 3)
+python-calamine: 0.8.2  | rows 4
+roundtrip ok   : True
+RESULT: PASS — 核心啟動、執行、讀寫全部成功
+```
+
+核心在 `C:\work` 內啟動、在核心內完成 xlsx 寫入與兩種讀取、中日韓字元往返一致後正常關閉。
+
+### 11.3 kernelspec 全面稽核，並修掉一個故障核心
+
+因 10.2 移除了 3.12／3.14，逐一檢查 7 個 kernelspec 的 `argv[0]`：
+
+| kernelspec | 指向 | 稽核前 | 處置 |
+|---|---|---|---|
+| `ds`／`fin`／`mlops`／`nlp`／`rl`／`xai` | `C:\work\envs\<名>\Scripts\python.exe` | 正常 | — |
+| `python3`（ds 環境內建） | 裸名 `"python"` | **故障** | 改為絕對路徑 |
+
+`python3` 這個 kernelspec 用裸名 `python`，會從 PATH 解析——而 PATH 上的 `python` 是 `...\WindowsApps\python.exe`，一個 **0 位元組的 Microsoft Store 佔位檔**（實測執行無任何輸出）。已把 `argv[0]` 改為 `C:\\work\\envs\\ds\\Scripts\\python.exe`。現 **7 個 kernelspec 全部健康且全部指向 `C:\work` 內**。
+
+### 11.4 把派森資產全數收攏進 `C:\work`，釋出 7.8 GB
+
+依「切忌重疊安裝任何派森程序包在 `C:\work` 以外」的要求，掃描後發現並清除：
+
+| 位置 | 內容 | 處置 |
+|---|---|---|
+| `%LOCALAPPDATA%\uv\cache` | **7.67 GB／20 萬檔**的 uv 快取（`archive-v0` 7.36 GB、`sdists-v9`、`simple-v25`、`wheels-v6`…），時間戳全為 2026-10-06 08:47 前，`uv cache dir` 早已改指 `C:\work\uv-cache` | **已刪**（部分超長路徑以 robocopy 鏡像空目錄清除） |
+| `%APPDATA%\uv\python` | **完整派森安裝 120 MB**：cpython-3.12、3.12.15、3.13.16 各一套 | **已刪** |
+| `%APPDATA%\uv\python`（第二次） | 60.3 MB，16:46 又被重建（見 11.6） | **已再刪** |
+
+刪除前已逐項確認無引用：無行程佔用、全碟掃 `pyvenv.cfg` 無任何 venv 指向 AppData、`uv python list` 不收錄這些。
+
+同時把 uv 剩下三個預設在 `C:\work` 之外的目錄變數鎖進 `C:\work`（User 層級持久設定）：
+
+| 變數 | 原值 | 現值 |
+|---|---|---|
+| `UV_CACHE_DIR` | 已是 `C:\work\uv-cache` | 不變 |
+| `UV_PYTHON_INSTALL_DIR` | 已是 `C:\work\pythons` | 不變 |
+| `UV_TOOL_DIR` | 未設 → `%APPDATA%\uv\tools` | **`C:\work\uv-tools`** |
+| `UV_TOOL_BIN_DIR` | 未設 | **`C:\work\uv-tools\bin`** |
+| `UV_PYTHON_BIN_DIR` | 未設 | **`C:\work\pythons\bin`** |
+
+另確認 `ds` 環境 `ENABLE_USER_SITE: False`、`USER_SITE` 不存在，`JUPYTER_DATA_DIR` 已是 `C:\work\jupyter`——沒有任何 user site-packages 旁路。
+
+現況：派森資產全在 `C:\work`（`envs` 9.95 GB／`uv-cache` 1.58 GB／`pythons` 59.7 MB）。`C:\work` 之外僅剩 `.local\bin` 的 uv 三個執行檔（39 MB，是 uv 本身而非派森套件）。
+
+### 11.5 Positron 唯一的 `C:\work` 外足跡：22 MB 位元碼快取（非安裝）
+
+`%APPDATA%\Positron\User\globalStorage\ms-python.python\pycache\` 有 1411 個 `.pyc`、22.49 MB。已查證其性質：
+
+| 指標 | 值 | 判讀 |
+|---|---|---|
+| `*.dist-info` 數 | **0** | 沒有任何已安裝套件 |
+| `*.py` 原始碼數 | **0** | 沒有複製任何原始碼 |
+| `*.pyc` 位元碼數 | 1411 | 純編譯快取 |
+| 是否在 `sys.path` | **否**（實測 `sys.path` 無 AppData／Positron 項） | 永不會被匯入 |
+
+**結論：這不是重疊安裝**，是 Positron 自己的環境分析快取，可隨時刪除且會自動重建。若仍希望連這 22 MB 都不落在 `C:\work` 外，唯一辦法是把 Positron 整個 user-data 目錄搬過去（`--user-data-dir C:\work\Positron\data`），但那會重置您現有的 Positron 使用者設定，故未自行變更。
+
+### 11.6 一個會復發的外部來源（非 Positron）
+
+清除後於 **16:46** 又有一套 cpython-3.12.15 被寫回 `%APPDATA%\uv\python`。追查結果：
+
+- 寫入者在 **Claude 桌面應用的 MSIX 容器**內——`...\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\uv\python\` 下的 `cpython-3.12-...` 正是指向真實 `%APPDATA%\uv\python\cpython-3.12.15-...` 的符號連結。
+- 來源是 **`browser-use` MCP 伺服器**（`browser-use@inline` 外掛）。它在 10.4 被停止後由用戶端自動重啟，重啟時以 uv 臨時取用 3.12，而該行程的環境未套用 `UV_PYTHON_INSTALL_DIR`，uv 便退回預設位置下載。
+- **與 Positron、與您的派森環境皆無關**，但只要該外掛持續重啟就會復發。
+
+若要徹底斷根，二選一：**重啟 Claude 桌面應用**（讓它重新繼承 `UV_PYTHON_INSTALL_DIR=C:\work\pythons`），或**停用 `browser-use` 外掛**。我已再次清除該 60.3 MB，但未代您改動外掛設定。
+
+### 11.7 本輪結論
+
+| 項目 | 結果 |
+|---|---|
+| Positron 開啟 | **PASS**（10 行程、視窗標題正確、37 擴展） |
+| 解譯器探索 | **PASS**（6 個環境全被掃到，`venvPath` 生效） |
+| 派森執行期 | **PASS**（核心啟動／執行／xlsx 讀寫／中日韓往返一致） |
+| kernelspec | **7/7 健康**，修掉 1 個指向 0 位元組假檔的故障核心 |
+| `C:\work` 外派森安裝 | **0**（釋出 7.8 GB；僅餘 Positron 22 MB 位元碼快取，非安裝） |
+| 尚未重開機 | 依指示保持，WSL2 仍待生效 |
 
 ---
 

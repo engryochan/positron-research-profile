@@ -618,4 +618,155 @@ RESULT: PASS — 核心啟動、執行、讀寫全部成功
 
 ---
 
+## 十二、2026-10-10 重開機後實測
+
+### 12.1 WSL2 已生效
+
+機器於 **06:52:13** 重新啟動（非本次作業觸發）。重開機後 WSL2 轉為可用：
+
+| 檢查 | 重開機前 | 重開機後 |
+|---|---|---|
+| `wsl --status` | `Wsl/WSL_E_WSL_OPTIONAL_COMPONENT_REQUIRED` | **默認版本: 2** |
+| `wsl --version` | 3.0.1.0（已裝未生效） | **WSL 3.0.1.0／核心 6.18.40.1-1／WSLg 1.0.79** |
+| 發行版 | 0 | **0**（依指示不裝，註冊表 `Lxss` 無任何登記） |
+
+### 12.2 Positron 重啟並驗到「實時」派森主控台
+
+重新以本項目路徑啟動（13 個行程，主視窗 `Welcome - positron-research-profile - Positron`）。本輪取得比合成測試更直接的實證——Positron 自己的派森主控台行程正在執行中：
+
+```
+PID 32380  C:\work\envs\ds\Scripts\python.exe                        \
+PID 33616  C:\work\pythons\cpython-3.13-windows-x86_64-none\python.exe
+           ...\positron-python\python_files\posit\positron_language_server.py
+           --session-mode=console
+```
+
+亦即 Positron 真的把主控台開在 `C:\work\envs\ds`（3.13.16）上，`venvPath` 設定與單一版本統一皆按預期運作。
+
+### 12.3 新測項：ark（Positron 的 R 核心）端到端
+
+Positron 的 R 主控台由 Rust 寫的 `ark` 核心驅動。以 `jupyter_client` 直接驅動 `positron-r\resources\ark\windows-x64\ark.exe`（**Ark 0.1.252+266.5564f48**）：
+
+```
+Successfully opened R shared library at 'C:\work\R\R-4.6.1\bin\x64\R.dll'
+  （同時載入 Rgraphapp / Rlapack / Riconv / Rblas）
+R version   : R version 4.6.1 (2026-06-24 ucrt)
+R.home      : C:/work/R/R-4.6.1
+.libPaths   : C:/work/R/R-4.6.1/library
+openxlsx2   : 1.29
+data.table  : 1.18.6.1
+roundtrip   : TRUE | rows 2
+RESULT: PASS — ark 核心啟動並成功執行 R
+```
+
+> 註：`positron-r` 同時內附 `windows-arm64` 與 `windows-x64` 兩套 ark，本機須用 x64 版（誤用 arm64 會回報「不是有效的應用程式」）。
+
+### 12.4 3.12 復發，已依兩條規則清除
+
+11.6 預判的復發確實發生。開機後時間線：
+
+| 時間 | 事件 |
+|---|---|
+| 06:52:13 | 開機 |
+| **06:57:22** | `C:\work\pythons\cpython-3.12.15` 被建立——Claude 應用重啟後繼承了 `UV_PYTHON_INSTALL_DIR`，uv 遂裝進 `C:\work`（重導奏效） |
+| **06:58:15** | `%APPDATA%\uv\python\cpython-3.12.15` 也被建立——另一個未套用該變數的行程所為 |
+
+查證兩者關係：`%APPDATA%` 那份是 **60.3 MB 真實目錄**（非指向 `C:\work` 的連結；同層 `cpython-3.12-...` 只是指向它的 Junction）。亦即確實存在**兩份獨立實體**。
+
+根源已定位：`browser-use` 外掛在
+`...\Claude_pzs8sxrjxfjjc\LocalCache\...\plugin_01PBVJh18JySdSHvKEhDSiQY\modelcontextprotocol\.python-version`
+釘選了自己的派森版本（檔內值為 `3.11`），因此每次啟動都會讓 uv 另外取得一套解譯器。
+
+依您訂的兩條規則處置（清除前確認無任何 uv／browser-use 行程在跑）：
+
+| 位置 | 違反的規則 | 處置 |
+|---|---|---|
+| `C:\work\pythons\cpython-3.12.15` | 只保留一個派森版本 | `uv python uninstall 3.12` 已卸載 |
+| `%APPDATA%\uv\python`（60.3 MB） | 不得裝在 `C:\work` 之外 | 已刪除 |
+
+清除後 Positron 的實時主控台（PID 32380／33616）未受影響，仍正常執行。
+
+**這會再復發。** 只要 `browser-use` 外掛被啟用，每次它啟動就會重裝一套。該外掛本身目前也處於 `CONNECT_TIMEOUT` 故障狀態。唯一能根治的辦法是在 `/plugin manage` 停用該外掛；在那之前，本報告記錄的清除指令可重複套用：
+
+```powershell
+uv python uninstall 3.12
+Get-ChildItem "$env:APPDATA\uv\python" -Force | Remove-Item -Recurse -Force
+```
+
+### 12.5 重開機後完整回歸
+
+| 項目 | 結果 |
+|---|---|
+| 派森堆疊（3.13.16） | polars 971 ms／fastexcel 1744 ms／calamine 223 ms／xlsx2csv 50 ms — **4/4 PASS** |
+| 派森 Jupyter 核心 | **PASS**，7 個 kernelspec 全在 `C:\work`（11.3 的修正存活） |
+| ark R 核心 | **PASS**（新測項，見 12.3） |
+| 鄀（R）4.6.1 | openxlsx2 431/72 ms、data.table 2/8 ms — **PASS**，均往返一致 |
+| 跨語言互通 | 雙向 3 項 **全 PASS** |
+| uv 目錄變數 | 5 個全部存活於 `C:\work` |
+| 規則一（單一版本） | **滿足**：`C:\work\pythons` 僅 3.13.16（59.7 MB），6 個環境全 3.13.16 |
+| 規則二（`C:\work` 外零安裝） | **滿足**：全域掃描無任何含 `dist-info` 的 site-packages |
+
+---
+
+## 十三、2026-10-10 續測（同日第二輪）
+
+### 13.1 擴展版本核對與升級
+
+`positron --update-extensions` 回報無可更新，但對照 OpenVSX 上游仍有 7 項落後。逐一嘗試釘選安裝，查明鏡像實際擁有哪些：
+
+| 擴展 | 本機原版 | 上游最新 | 鏡像可裝 | 結果 |
+|---|---|---|---|---|
+| `reditorsupport.r` | 3.0.1 | 3.1.20261009 | ✓ | **已升級** |
+| `eamodio.gitlens` | 19.3.0 | 2026.10.90519 | ✓ | **已升級**（大版號跨越） |
+| `anthropic.claude-code` | 2.1.295 | 2.1.296 | ✗ | 鏡像未同步 |
+| `charliermarsh.ruff` | 2026.84.0 | 2026.86.0 | ✗ | 鏡像未同步 |
+| `github.vscode-pull-request-github` | 0.162.0 | 0.168.0 | ✗ | 鏡像未同步 |
+| `openai.chatgpt` | 26.5730.61309 | 26.5908.31748 | ✗ | 鏡像未同步 |
+| `meta.pyrefly` | 1.3.1 | 1.3.9003 | ✗ | 且為預發行版，依穩定性優先不採用 |
+
+釘選安裝留下的 2 個舊目錄（`gitlens-19.3.0`、`reditorsupport.r-3.0.1`）已依「以實際啟用版本為準」刪除。
+
+現況：**37 個擴展／37 個目錄／0 重複／3.88 GB**；對照舊主機 **升級 13、持平 15、退化 0**。
+
+### 13.2 `browser-use` 3.12 第三次復發——根因完全查明
+
+開機後 07:58 又建立兩份 3.12。這次抓到確切的啟動指令：
+
+```
+uv.exe tool uvx --python 3.12 browser-use@latest --cli-mcp
+```
+
+**`--python 3.12` 是硬編碼在外掛啟動指令裡的**（不只是 `.python-version` 檔），所以它每次啟動都必然索取一套 3.12，與本機統一到 3.13.16 無關、也無法透過環境變數繞過。
+
+兩份的角色也查清了：
+
+| 位置 | 類型 | 是否在用 | 處置 |
+|---|---|---|---|
+| `C:\work\pythons\cpython-3.12.15` | 真實目錄 | **正在用**（MCP 伺服器 PID 22660 以它執行） | **暫留**（見下） |
+| `%APPDATA%\uv\python\cpython-3.12.15` | 真實目錄 60.3 MB | 未使用，純重複 | **已刪** |
+
+處置理由：
+- `%APPDATA%` 那份違反「不得裝在 `C:\work` 之外」的硬禁令，且無人使用，零代價刪除——**已清零，刪除後 MCP 伺服器未受影響**。
+- `C:\work` 那份雖牴觸「只保留一個版本」，但它在 `C:\work` 內（硬禁令成立），且正支撐一個運行中的工具；刪了它會立刻斷掉該工具，而外掛數分鐘內又會重裝，純屬打地鼠。故暫留並記錄。
+
+**根治只有一途**：在 `/plugin manage` 停用 `browser-use` 外掛。在那之前每輪清理指令為：
+
+```powershell
+uv python uninstall 3.12
+Get-ChildItem "$env:APPDATA\uv\python" -Force | Remove-Item -Recurse -Force
+```
+
+### 13.3 升級後回歸實測
+
+| 項目 | 結果 |
+|---|---|
+| 派森堆疊（3.13.16） | polars 709 ms／fastexcel 1557 ms／calamine 227 ms／xlsx2csv 48 ms — **4/4 PASS** |
+| 派森 Jupyter 核心 | **PASS**（`C:\work\envs\ds`，3.13.16） |
+| ark R 核心 | **PASS**（`reditorsupport.r` 升到 3.1 後複驗，R 4.6.1／openxlsx2 1.29／data.table 1.18.6.1，往返 TRUE） |
+| 鄀（R）堆疊 | openxlsx2 334/35 ms、data.table 1/8 ms — **PASS**，均往返一致 |
+| 版本退化 | **0 項** |
+| 規則二（`C:\work` 外零安裝） | **滿足** |
+
+---
+
 *本報告為新建文件。倉庫內 41 個既有文件（含 `reports/Research_Report.md`、`reports/Research_Profile.csv` 等舊主機記錄）全部保持原狀，`git status` 僅顯示本文件為未追蹤新增。*

@@ -967,4 +967,42 @@ Positron 長時間開著，檔案換不掉，於是登錄檔已記成新版而�
 
 ---
 
+## 十八、2026-10-10 kilo 永久排除之落實（乙策）
+
+先生裁定 kilo 完全根除，並命於鐵律與安裝清單注明、日後不納入。惟驅動安裝的 `install-positron-with-best-suit.ps1`（第 18 行 `kilocode.kilo-code`）屬受保護的既有文件。在下呈甲乙丙三策，先生取在下所薦**乙策**。落實如下：
+
+| 動作 | 內容 |
+|---|---|
+| 鐵律記憶 | 新增 `excluded-components`（kilo 永久排除＋理由＋把關方式）與 `repo-existing-files-untouchable`（成文化「既有文件不改」首令） |
+| 新建修正腳本 | **`install-positron-best-suit.v2.ps1`**（新增文件，不動舊檔）——剔除 kilo 的可執行安裝行，僅留注釋說明排除理由；PowerShell 解析器校驗語法合法、無可執行的 kilo 指令 |
+| 舊檔 | `install-positron-with-best-suit.ps1` **原樣封存未改**，作舊主機基線史料 |
+
+自此，日後開荒改用 v2 腳本即自動排除 kilo；縱有人誤用舊檔，`excluded-components` 記憶亦令在下執行時主動略過 kilo 那行。雙重把關。
+
+**roo-cline 之裁示見下節。**
+
+## 十九、2026-10-10 汰除停更化石 roo-cline
+
+先生裁定一併汰除。盤點：roo 無任何擴展依賴、settings 無牽連（`settings.json` 內 `ROOT` 二字係 mssql 連線群組，非 roo），佔 148 MB。潔淨移除：
+
+- `positron --uninstall-extension rooveterinaryinc.roo-cline` → 成功
+- 清殘留目錄（148 MB）＋ globalStorage
+- 無需動 settings.json
+
+**實測無損**：移除後派森核心 PASS（3.13.16／往返 True）。保留的 AI 代理五路：Claude Code、Cline、Continue、ChatGPT、Gemini。
+
+記憶 `excluded-components` 已把 roo-cline 由「建議排除待裁示」更新為「永久排除（已根除）」。
+
+### 最終擴展狀態（本輪 AI 編制精簡總結）
+
+| 階段 | 擴展數 | 容量 |
+|---|---:|---:|
+| 2026.10.0 升級後 | 37 | 3.88 GB |
+| 移除 kilo-code | 36 | 3.37 GB |
+| 移除 roo-cline | **35** | **3.23 GB** |
+
+共汰除兩個化石／冗餘代理，省約 **668 MB**，功能零損失（補全＝Continue、自主代理＝Cline、對話＝Claude Code／ChatGPT／Gemini）。35 擴展、0 重複、0 殘留。
+
+---
+
 *本報告為新建文件。倉庫內 41 個既有文件（含 `reports/Research_Report.md`、`reports/Research_Profile.csv` 等舊主機記錄）全部保持原狀，`git status` 僅顯示本文件為未追蹤新增。*

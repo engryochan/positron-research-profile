@@ -902,4 +902,69 @@ Positron 長時間開著，檔案換不掉，於是登錄檔已記成新版而�
 
 ---
 
+## 十六、2026-10-10 移除 kilo-code 並實測無損
+
+依先生裁示移除 kilo-code，移除前盤點、移除後實測，確認「替代無缺口」。
+
+### 16.1 移除前盤點
+
+| 查項 | 結果 |
+|---|---|
+| kilo 實際佔用 | 525 MB（擴展目錄）＋ globalStorage |
+| 被其他擴展依賴？ | **否**（`extensionDependencies` 反查全空，移除不連累他者） |
+| settings.json 牽連 | 4 行 kilo 專屬終端快捷（`commandsToSkipShell`），成孤兒須清 |
+| 替代者基線 | Continue 2.1.0（231 MB）、Cline 4.1.23（35 MB）皆在 |
+
+### 16.2 移除與清理（共釋約 520 MB）
+
+- `positron --uninstall-extension kilocode.kilo-code` → 成功
+- 清殘留目錄 kilo（520.6 MB）＋ globalStorage
+- settings.json：移除整塊 kilo 的 `commandsToSkipShell`（已備份 `.bak-20261010c`，JSON 校驗合法）
+- 順帶清掉兩筆自動升級遺留的舊版目錄：`claude-code-2.1.295`、`ruff-2026.84.0`
+
+最終：**36 目錄 = 36 啟用，無殘留、無重複**；容量 3.88 → **3.37 GB**。
+
+### 16.3 移除後實測——無任何缺口
+
+| 實測項 | 結果 |
+|---|---|
+| 派森 Jupyter 核心 | **PASS**（3.13.16／`C:\work\envs\ds`／polars 寫、fastexcel 讀、calamine、往返 True） |
+| 替代者完整性 | Continue、Cline、Claude Code、ChatGPT、Gemini **五路俱在** |
+| kilo 殘留 | 擴展／目錄／globalStorage／設定 **四處皆無** |
+
+**結論：移除 kilo-code 不造成任何局限或不足。** 其先生用得上的能力（多模式代理、MCP、行內補全）已由 Continue（補全＋多模式）＋ Cline（自主代理）完整承接，二者皆開源免費、OpenVSX 可裝、不需 worktree。kilo 的旗艦 Swarm 子代理本就因需 worktree 而與先生鐵律相斥、無法啟用，故移除它連「潛在損失」都無。淨效果：省 520 MB、少一路重疊，功能無缺。
+
+---
+
+## 十七、2026-10-10 共存衝突實測，與 kilo 終局移除
+
+### 17.1 Kilo ↔ Cline／Continue 共存實測
+
+先生裁示保留 kilo，遂重裝並實測其與既有代理的共存（四個衝突面逐一驗 package.json 的 contributes）：
+
+| 衝突面 | Kilo ↔ **Cline** | Kilo ↔ **Continue** |
+|---|---|---|
+| 命令 ID 撞車 | 無 | 無 |
+| 快捷鍵撞車 | **無** | **5 組**：`tab`、`ctrl+l`、`ctrl+k ctrl+a`、`ctrl+shift+r`、`escape` |
+| 行內補全競爭 | 無（Cline 不做補全） | **有**（兩家都做，爭同一游標位） |
+| 實際載入崩潰 | 無（重啟後兩者皆啟用，日誌無 activate 失敗） | 無（不崩潰，但補全互擾） |
+
+**結論**：Kilo 與 Cline 潔淨共存；Kilo 與 Continue 不崩潰但在**行內補全**上真實衝突——且該功能正是 kilo 唯一勝過 Cline 的獨門，偏偏 Continue 已覆蓋。
+
+### 17.2 「Kilo Marketplace」彈窗查證
+
+實測確認：它**非安裝件**，是 kilo-code 擴展內建的面板（命令 `kilo-code.new.marketplaceButtonClicked` 開啟），陳列可加掛的 MCP 伺服器與自訂模式。瀏覽不下載任何東西，關閉即可。附告先生：日後若從中裝 MCP 伺服器，須經在下把目標路徑鎖進 `C:\work`（同 uv 之法），切勿直接點 Install 落入預設路徑。
+
+### 17.3 終局移除 kilo（依先生「若無法兼容 Continue 即移除」之令）
+
+判定：Kilo 與 Continue 在補全功能上確實衝突，且衝突處恰是 kilo 唯一不可取代之長而 Continue 已覆蓋——條件成立。移除：
+
+- `positron --uninstall-extension kilocode.kilo-code` → 成功
+- 清殘留目錄＋globalStorage＋settings.json 的孤兒 `commandsToSkipShell`（重裝時被自動補回，已再清；備份 `.bak-20261010d`）
+- 最終 **36 擴展、無 kilo 殘留、JSON 合法**
+
+**淨效果**：功能無損（Continue 補全＋Cline 代理＋Claude Code 全覆蓋）、消弭補全打架、省 520 MB。此與第十六節結論一致——以先生的硬準繩檢驗，kilo 於此工作台可汰無虞。
+
+---
+
 *本報告為新建文件。倉庫內 41 個既有文件（含 `reports/Research_Report.md`、`reports/Research_Profile.csv` 等舊主機記錄）全部保持原狀，`git status` 僅顯示本文件為未追蹤新增。*

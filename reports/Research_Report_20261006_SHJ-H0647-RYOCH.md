@@ -769,4 +769,137 @@ Get-ChildItem "$env:APPDATA\uv\python" -Force | Remove-Item -Recurse -Force
 
 ---
 
+## 十四、2026-10-10 最優化稽核
+
+### 14.1 最大發現：Positron 本體卡在半套用的更新狀態
+
+稽核一開始就撞到一個矛盾：
+
+| 來源 | 版本 |
+|---|---|
+| `positron --version` | 2026.09.1 build 2 |
+| `C:\work\Positron\Positron.exe` 檔案版本 | 2026.09.1 |
+| **登錄檔反安裝記錄** | **2026.10.0** |
+| winget 倉庫最新 | 2026.10.0 |
+
+追查後查明：**2026.10.0 已下載並暫存完畢，只差套用**。
+
+```
+C:\work\Positron\_\Positron.exe          2026.10.0  ← 暫存，共 2.23 GB，建置於 10-08
+C:\work\Positron\Positron.exe            2026.09.1  ← 執行中的舊版
+C:\work\Positron\tools\inno_updater.exe             ← 負責交換的更新器 (Inno Update v0.22.0)
+C:\work\Positron\unins000.exe            10-10 07:01 更新  ← 新版反安裝器已就位
+```
+
+Positron 長時間開著，檔案換不掉，於是登錄檔已記成新版而二進位仍是舊版——**一個不一致的半完成狀態**。
+
+處置：關閉 Positron 後執行 `inno_updater`，更新套用成功。
+
+| | 之前 | 之後 |
+|---|---|---|
+| Positron | 2026.09.1 build 2 | **2026.10.0 build 297** |
+| Code OSS | 1.130.0 | **1.134.0** |
+| 安裝目錄 | 4.4 GB（含暫存） | **2.19 GB**（暫存已回收 2.23 GB） |
+| 擴展 | 37 | 37（全數完好） |
+| 使用者設定 | — | 全部保留（`venvPath`／`defaultInterpreterPath`／`colorTheme`） |
+
+### 14.2 新版補上了一個原列為「無法取得」的缺口
+
+2026.10.0 的內建擴展由 129 降為 121 個，但新增了一項對本項目策展清單有意義的：
+
+| | 狀態變化 |
+|---|---|
+| `GitHub.copilot-chat@0.62.0` | **現已內建**。報告 3.2 原將 `github.copilot` 列為「微軟專有、OpenVSX 無」，此缺口由新版自行補上 |
+
+剩餘兩項仍無（已在新版 gallery 重試確認）：`ms-python.vscode-pylance`（授權限定，由內建 `meta.pyrefly` 替代）、`plotly.plotly-vscode`（註冊表無，內建 Plots 面板覆蓋）。
+
+逐一比對 121 個內建擴展與 37 個外部擴展的 ID：**零重疊**，故沒有任何因重複而該移除的擴展。
+
+內建執行期組件：`ms-python.python@2026.99.0-dev`、`positron.positron-r@0.0.2`、`positron.positron-duckdb@0.0.1`、`positron.positron-supervisor@0.0.1`；ark 核心由 `0.1.252+266` 升至 **`0.1.252+355.f1af004`**。
+
+### 14.3 執行期回歸（2026.10.0 上）
+
+| 項目 | 結果 |
+|---|---|
+| 派森 Jupyter 核心 | **PASS**：3.13.16／`C:\work\envs\ds`／polars 6341 B → fastexcel (3,3) → calamine 4 列／往返 True |
+| ark R 核心（新版 Ark） | **PASS**：R 4.6.1／openxlsx2 1.29／data.table 1.18.6.1／往返 TRUE |
+
+### 14.4 容量結構——這是唯一還不算「最優」的地方
+
+擴展總容量 3.88 GB，前五名：
+
+| 擴展 | 容量 |
+|---|---:|
+| `ms-mssql.mssql` | **1032.9 MB** |
+| `openai.chatgpt` | 946.5 MB |
+| `kilocode.kilo-code` | 520.6 MB |
+| `anthropic.claude-code` | 258.7 MB |
+| `google.geminicodeassist` | 238.6 MB |
+
+**AI 代理類合計 2425.3 MB，佔擴展總容量 61%**，分佈於 8 個外部代理（claude-code、continue、chatgpt、geminicodeassist、kilo-code、roo-cline、claude-dev、posit.assistant）**另加新內建的 Copilot Chat**，共九路功能高度重疊。
+
+`ms-mssql.mssql` 單項 1 GB，是全場最大。它來自 `categories.json` 的 `Database` 分類，屬策展清單內項目；但本項目的資料層實際以 DuckDB／Postgres 為主，而 Positron 已內建 `positron-duckdb` 與七個 data-driver。SQL Server 客戶端在量化科研工作台是否值得 1 GB，建議使用者自行裁量。
+
+> 此兩項**未自行移除**——`ms-mssql.mssql` 在策展清單內，九路 AI 代理則是使用者明示的多模型會商編制（見記憶 `multi-ai-consultation-method`）。純屬容量觀察，供裁決。
+
+### 14.5 稽核結論
+
+| 面向 | 判定 |
+|---|---|
+| 組件完整性 | **已最優**。策展清單 32/35 直接或內建滿足，餘 3 項皆有替代且已複查確認仍不可得 |
+| 版本 | **已最優**。Positron 升至 2026.10.0；對照舊主機升級 13、持平 15、**退化 0** |
+| 一致性 | **已最優**。37/37 無重複；派森單一 3.13.16；7 個 kernelspec 全在 `C:\work` |
+| 設定 | **已最優**。`venvPath`／`defaultInterpreterPath` 生效並經實測；主題保留 |
+| 執行期 | **已最優**。派森與 R 兩核心在新版上皆 PASS |
+| 容量結構 | **尚可精簡**。61% 擴展容量花在九路重疊的 AI 代理；mssql 單項 1 GB |
+| 鏡像落後 | **非本機可控**。4 項（claude-code 2.1.296、ruff 2026.86.0、PR-github 0.168.0、chatgpt 26.5908）上游有而 p3m 鏡像無，已在新版 gallery 重試確認 |
+
+本機最終狀態：Positron 2026.10.0 build 297／Code OSS 1.134.0／37 擴展／121 內建／派森 3.13.16 單一版本 6 環境／R 4.6.1／Quarto 1.10.18／uv 0.12.23／WSL 3.0.1.0（0 發行版）。
+
+---
+
+## 十五、2026-10-10 第二輪稽核：容量結構與鏡像落後項
+
+### 15.1 鏡像落後 4 項——再查，並修正一次意外退化
+
+重查 p3m 鏡像對這 4 項的供給。鏡像的 `/latest` 端點對 `openai.chatgpt`（26.5908.31748）與 `github.vscode-pull-request-github`（0.168.0）回報有新版，看似已同步。但實測安裝端：
+
+| 擴展 | 鏡像 `/latest` 宣稱 | 不帶版號實際裝到 | 判定 |
+|---|---|---|---|
+| `openai.chatgpt` | 26.5908.31748 | **26.721.30844（更舊）** | 鏡像謊報 |
+| `github.vscode-pull-request-github` | 0.168.0 | 0.162.0（本機原版） | 鏡像謊報 |
+| `anthropic.claude-code` | — | 鏡像仍停 2.1.295 | 無新版 |
+| `charliermarsh.ruff` | — | 鏡像仍停 2026.84.0 | 無新版 |
+
+**過程中 chatgpt 一度被裝成 26.721.30844，低於本機原有的 26.5730.61309——觸發退化。** 立即依「只升不降」鐵律釘選回裝 `26.5730.61309`，退化已消除，殘留的 26.721 目錄已刪。
+
+結論：這 4 項**本機已無計可施**。p3m 鏡像的 `/latest` 端點與實際可安裝資產不一致（謊報新版），硬裝只會退化。非本機可控，只能待鏡像自行同步；期間**切勿**對這幾項做不帶版號的 `--install-extension`，會中退化陷阱。
+
+最終：**退化 0**、37/37 無重複（對照舊主機仍為升級 13、持平 15、退化 0）。
+
+### 15.2 容量結構全景（純量測，未刪任何擴展）
+
+擴展總容量 3.98 GB，按功能分類：
+
+| 分類 | 容量 | 佔比 |
+|---|---:|---:|
+| **AI 代理** | **2425.1 MB** | **61.0%** |
+| **資料庫**（mssql 單項） | **1032.9 MB** | **26.0%** |
+| 視覺化 | 239.9 MB | 6.0% |
+| 派森 | 81.7 MB | 2.1% |
+| R／科研 | 61.6 MB | 1.5% |
+| Git／其他 | 55.1 MB | 1.4% |
+| Jupyter | 54.7 MB | 1.4% |
+| Web | 21.6 MB | 0.5% |
+| 容器 | 4.2 MB | 0.1% |
+
+**兩類即佔 87%**：
+
+- **AI 代理 61%**——9 路功能重疊（claude-code、continue、chatgpt、geminicodeassist、kilo-code、roo-cline、claude-dev、posit.assistant，另加內建 Copilot Chat）。這是使用者明示的多模型會商編制，**按編制保留**。
+- **mssql 單項 26%（1 GB）**——策展清單 `Database` 分類內項目，但本項目資料層以 DuckDB／Postgres 為主，Positron 已內建 `positron-duckdb` 加 7 個 data-driver。
+
+**未自行移除任何一項**：AI 編制屬使用者既定方針，mssql 在策展清單內。此節純為量測，裁量權在使用者。若使用者裁定精簡，候選順序建議為：先 mssql（省 1 GB，且有內建替代），AI 代理則依實際使用頻率由使用者圈定去留。
+
+---
+
 *本報告為新建文件。倉庫內 41 個既有文件（含 `reports/Research_Report.md`、`reports/Research_Profile.csv` 等舊主機記錄）全部保持原狀，`git status` 僅顯示本文件為未追蹤新增。*
